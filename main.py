@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
+
 def solve_maze(maze):
     start_pos = find_start(maze)
     if start_pos is None:
@@ -13,10 +14,11 @@ def solve_maze(maze):
     visited = set()
     path = []
     best_path = []
-    best_points = [float('inf')]  # Initialize with infinity
+    best_points = [float('inf')]  # Inicjalizacja z nieskończonością do porównywania min oraz max
 
     dfs(maze, start_pos, visited, path, best_path, best_points)
     return best_path
+
 
 def dfs(maze, pos, visited, path, best_path, best_points):
     x, y = pos
@@ -24,9 +26,9 @@ def dfs(maze, pos, visited, path, best_path, best_points):
 
     if x == 0:
         points = calculate_points(path, maze)
-        if points < best_points[0]:  # Check if current path has fewer points
+        if points < best_points[0]:  # Sprawdzenie czy dana ścieżka ma mniej punktów (koszt naliczany punktami)
             best_points[0] = points
-            best_path[:] = path  # Update best_path
+            best_path[:] = path  # Aktualizacja best_path
 
     visited.add(pos)
 
@@ -37,6 +39,7 @@ def dfs(maze, pos, visited, path, best_path, best_points):
 
     visited.remove(pos)
 
+    
 def calculate_points(path, maze):
     points = 0
     for pos in path:
@@ -49,21 +52,23 @@ def calculate_points(path, maze):
             points += 1
     return points
 
+
 def get_neighbors(maze, pos):
     x, y = pos
     rows, cols = len(maze), len(maze[0])
     neighbors = []
 
-    if x > 0 and maze[x - 1][y] != '#':  # Up
+    if x > 0 and maze[x - 1][y] != '#':  # Góra
         neighbors.append((x - 1, y))
-    if x < rows - 1 and maze[x + 1][y] != '#':  # Down
+    if x < rows - 1 and maze[x + 1][y] != '#':  # Dół
         neighbors.append((x + 1, y))
-    if y > 0 and maze[x][y - 1] != '#':  # Left
+    if y > 0 and maze[x][y - 1] != '#':  # Lewo
         neighbors.append((x, y - 1))
-    if y < cols - 1 and maze[x][y + 1] != '#':  # Right
+    if y < cols - 1 and maze[x][y + 1] != '#':  # Prawo
         neighbors.append((x, y + 1))
 
     return neighbors
+
 
 def find_start(maze):
     start_positions = []
@@ -75,23 +80,25 @@ def find_start(maze):
         return start_positions[0]
     return None
 
+
 def print_maze(maze):
     for row in maze:
         print(' '.join(row))
 
+        
 def generate_random_points(maze):
     rows, cols = len(maze), len(maze[0])
     for i in range(rows):
         for j in range(cols):
             if maze[i][j] not in ['#', 'e', 'x']:
-                if random.random() < 0.4:  # 40% chance for generating a point
-                    if random.random() < 0.5:  # 50% chance for + or -
+                if random.random() < 0.4:  # 40% szans na wygenerowanie bonusu/kary
+                    if random.random() < 0.5:  # 50% szans na wylosowanie + lub -
                         maze[i][j] = '+'
                     else:
                         maze[i][j] = '-'
     return maze
 
-# Example usage:
+# Przykładowy labirynt:
 maze = [
     ['#', 'x', '#', '#', '#', '#', '#'],
     ['#', ' ', ' ', ' ', ' ', ' ', '#'],
@@ -114,16 +121,16 @@ path = solve_maze(maze)
 if path:
     print("\nPath found:")
     print("Maze with path:")
-    maze_copy = [row[:] for row in maze]  # Create a copy of the maze
+    maze_copy = [row[:] for row in maze]  # Stworzenie kopii labiryntu
 
     for row in maze_copy:
         for i in range(len(row)):
             if row[i] == '+' or row[i] == '-':
-                row[i] = ' '  # Replace '+' or '-' with empty space
+                row[i] = ' '  # Podmienienie '+' lub '-' na whitespace
 
     for pos in path:
         x, y = pos
-        maze_copy[x][y] = 'P'  # Mark path with 'P'
+        maze_copy[x][y] = 'P'  # Zaznaczenie ścieżki znakiem 'P'
 
     print_maze(maze_copy)
 else:
@@ -138,7 +145,7 @@ if path:
     print("Cost:", points)
     print("Cost to Path ratio:", round(ratio,2))
 
-# Generate GIF frames
+# Genreowanie klatek GIF-a
 frames = []
 
 fig, ax = plt.subplots()
@@ -147,6 +154,7 @@ maze_rows = len(maze)
 maze_cols = len(maze[0])
 maze_size = max(maze_rows, maze_cols)
 fig.set_size_inches(maze_size, maze_size)
+
 
 def update_frame(i):
     ax.cla()
@@ -175,5 +183,5 @@ for i in range(len(path) + 1):
     image = Image.fromarray(buffer)
     frames.append(image)
 
-# Generate GIF
+# Generowanie GIF-a
 frames[0].save('maze_solution.gif', format='GIF', append_images=frames[1:], save_all=True, duration=1000, loop=0)
