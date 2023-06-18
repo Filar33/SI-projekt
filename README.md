@@ -13,7 +13,7 @@ Projekt optymalizacji rozwiązywania labiryntów za pomocą algorytmu DFS (Depth
 
 # Przykład wyniku
 
-# Wynik w konsoli:
+## Wynik w konsoli:
 
 ```
 Original Maze:
