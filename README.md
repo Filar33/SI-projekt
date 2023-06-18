@@ -15,6 +15,7 @@ Projekt optymalizacji rozwiązywania labiryntów za pomocą algorytmu DFS (Depth
 
 # Wynik w konsoli:
 
+```
 Original Maze:
 # x # # # # #
 # -   +   - #
@@ -47,6 +48,6 @@ Cost: 7
 Cost to Path ratio: 0.39
 
 Process finished with exit code 0
-
+```
 ## Wygenerowany GIF na podstawie wyniku z konsoli:
 ![](https://github.com/Filar33/SI-projekt/blob/main/maze_solution-2.gif)
