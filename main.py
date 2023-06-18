@@ -99,6 +99,10 @@ maze = [
     ['#', ' ', ' ', ' ', ' ', ' ', '#'],
     ['#', '#', '#', ' ', '#', ' ', '#'],
     ['#', ' ', ' ', ' ', ' ', ' ', '#'],
+    ['#', ' ', '#', '#', ' ', '#', '#'],
+    ['#', ' ', ' ', ' ', ' ', '#', '#'],
+    ['#', ' ', '#', '#', ' ', '#', '#'],
+    ['#', ' ', ' ', ' ', ' ', ' ', '#'],
     ['#', 'e', '#', '#', '#', '#', '#'],
 ]
 
@@ -139,7 +143,9 @@ frames = []
 
 fig, ax = plt.subplots()
 
-maze_size = len(maze)
+maze_rows = len(maze)
+maze_cols = len(maze[0])
+maze_size = max(maze_rows, maze_cols)
 fig.set_size_inches(maze_size, maze_size)
 
 def update_frame(i):
@@ -147,16 +153,16 @@ def update_frame(i):
     ax.set_title(f"Step {i+1}")
     ax.set_xticks([])
     ax.set_yticks([])
-    for x in range(maze_size):
-        for y in range(maze_size):
+    for x in range(maze_rows):
+        for y in range(maze_cols):
             if maze[x][y] == '#':
-                ax.fill([y, y+1, y+1, y, y], [maze_size-x, maze_size-x, maze_size-x-1, maze_size-x-1, maze_size-x], color='black')
+                ax.fill([y, y+1, y+1, y, y], [maze_rows-x, maze_rows-x, maze_rows-x-1, maze_rows-x-1, maze_rows-x], color='black')
             elif maze[x][y] == 'e':
-                ax.fill([y, y+1, y+1, y, y], [maze_size-x, maze_size-x, maze_size-x-1, maze_size-x-1, maze_size-x], color='green')
+                ax.fill([y, y+1, y+1, y, y], [maze_rows-x, maze_rows-x, maze_rows-x-1, maze_rows-x-1, maze_rows-x], color='green')
             elif maze[x][y] == 'x':
-                ax.fill([y, y+1, y+1, y, y], [maze_size-x, maze_size-x, maze_size-x-1, maze_size-x-1, maze_size-x], color='red')
+                ax.fill([y, y+1, y+1, y, y], [maze_rows-x, maze_rows-x, maze_rows-x-1, maze_rows-x-1, maze_rows-x], color='red')
             elif (x, y) in path[:i]:
-                ax.fill([y, y+1, y+1, y, y], [maze_size-x, maze_size-x, maze_size-x-1, maze_size-x-1, maze_size-x], color='blue')
+                ax.fill([y, y+1, y+1, y, y], [maze_rows-x, maze_rows-x, maze_rows-x-1, maze_rows-x-1, maze_rows-x], color='blue')
     if i == len(path) - 1:
         ax.text(0.5, 0.5, "Goal reached!", ha='center', va='center', transform=ax.transAxes, fontsize=16)
 
